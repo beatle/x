@@ -42,7 +42,8 @@
     setDigitsButton('Signing In…');
     $.ajax({
       type: 'POST',
-      url: '/digits',
+      // url: 'https://api.ayyayo.com/api/digits',
+      url: 'https://api.ayyayo.com/api/users/digits',
       data: oAuthHeaders,
       success: onDigitsSuccess
     });
@@ -88,6 +89,8 @@
 
   // Set the Digits phone number (and disable the button).
   function setDigitsNumber(phoneNumber) {
+      localStorage.m = phoneNumber;
+      window.location = 'order.html';
     $('.digits-button').text(phoneNumber).attr('disabled', 'disabled');
   }
 })();
