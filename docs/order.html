@@ -69,7 +69,7 @@
             <a class="page-header__logo" href="https://www.ayyayo.com"></a>
 
             <div class="page-header__title">
-                <a href="https://www.ayyayo.com/">Ayyayo<a/>
+                <a href="https://www.ayyayo.com/">Ayyayo</a>
             </div>
 
             <div class="page-header__menu" onclick="toggle_menu()">
@@ -86,18 +86,7 @@
 
                              </div>
 
-            <!--<nav class="page-header__nav">-->
-                <!--<ul class="sitenav">-->
-                    <!--<li class="sitenav-item">-->
-                        <!--<a href="https://goo.gl/forms/oOGce8OXYZGhdfu43">-->
-                            <!--Add your business                              </a>-->
-                    <!--</li>-->
-                    <!--<li class="sitenav-item">-->
-                        <!--<a href="https://play.google.com/store/apps/details?id=com.ayyayo.g">-->
-                            <!--Download                                </a>-->
-                    <!--</li>-->
-                <!--</ul>-->
-            <!--</nav>-->
+
         </div>
 
         <nav class="page-header__drawer drawer">
@@ -118,10 +107,6 @@
                 </div>
 
                 <ul class="menu menu--drawer">
-                    <!--<li class="menu__item">-->
-                        <!--<a href="https://play.google.com/store/apps/details?id=com.ayyayo.g" class="menu__link">-->
-                            <!--Download                                </a>-->
-                    <!--</li>-->
                     <li class="menu__item">
                         <a href="https://goo.gl/forms/oOGce8OXYZGhdfu43" class="menu__link">
                             Get in touch                                </a>
@@ -137,8 +122,10 @@
 <div class="section section--hero">
     <div class="block block--hero">
         <div class="block__inner">
+            <div class="fb-like" data-href="https://www.facebook.com/Ayyayo-1694851644139978/" data-layout="button" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
             <h1 class="block__title" id="title">
                 Place your order <br>In just 55 Seconds.            </h1>
+            <form id="orderForm">
             <div class="block__body" id="content">
                 Quantity: <input type="number" value="1" id="quantity" class="input-quatity">
                 <br>
@@ -147,19 +134,18 @@
             </div>
 
             <!--<a href="https://play.google.com/store/apps/details?id=com.ayyayo.g" class="button button&#45;&#45;primary button&#45;&#45;s block__action">Download now</a>-->
-            <a href="#"
-               class="after-order button button--primary button--s block__action order">Order Now</a>
-
+            <button type="submit"
+               class="after-order button button--primary button--s block__action order"  style="border-color:transparent">Order Now</button>
+</form>
             <!--<a href="https://goo.gl/forms/oOGce8OXYZGhdfu43" class="button button&#45;&#45;primary button&#45;&#45;s block__action">Join now</a>-->
 
-            <div class="block__hint">
-                <sup>*</sup> Data charges may apply. Contact your provider for details.            </div>
+
 
             <div class="block__action actions" class="after-order">
                 <ul>
                     <li>
-                        <h3><a href="#" class="order" >
-                            Order Now                        </a></h3>
+                        <h3><button href="#" class="order button button--primaryx button--s" >
+                            Order Now                        </button></h3>
                     </li>
 
                 </ul>
@@ -301,10 +287,11 @@
             $('#address-wrap').show()
         }
 
-        $('.order').click(function(){
+        $('#orderForm').submit(function(){
+            $('#orderForm button[type="submit"]').prop('disabled', true);
             var text = "";
             if(coords){
-                text = 'Number: '+localStorage.m+' Lat: '+coords.latitude+' Long: '+coords.longitude+' Quatity: '+$('#quantity').val()
+                text = 'Location : https://www.google.com/maps?q='+coords.latitude+','+coords.longitude+' Number: '+localStorage.m+'  Quatity: '+$('#quantity').val()
             } else {
                 text = 'Number: '+localStorage.m+' Location: '+$('#address').val()+' Quatity: '+$('#quantity').val()
             }
@@ -316,8 +303,14 @@
                     $('#title').html('Your order placed within 55 Seconds. Call +91 7892 337 481 for further queries.')
                     $('#content').hide();
                     $('.after-order').hide();
+                },
+                error: function(){
+                    $('#title').html('ಅಯ್ಯಯೊ. Something went wrong. Please call +91 7892 337 481 ')
+                    $('#content').hide();
+                    $('.after-order').hide();
                 }
             })
+            return false;
         })
     });
 
@@ -344,6 +337,12 @@
 <script src="ay.js"></script>
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 
-
+<script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8&appId=273682909471796";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
 </body>
 </html>
