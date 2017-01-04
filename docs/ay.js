@@ -10,7 +10,7 @@
    */
   $('#digits-sdk').load(function () {
     // Initialize Digits using the API key.
-    Digits.init({ consumerKey: config.digitsConsumerKey })
+    Digits.init({ phoneNumber: '+91',consumerKey: config.digitsConsumerKey })
       .done(function() {
         console.log('Digits initialized.');
       })
