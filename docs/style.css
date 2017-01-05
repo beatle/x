@@ -11,8 +11,57 @@
     border-style: outset;
     border-image: initial;
 }
+.sale-head {
+    display: inline-block;
+    margin-right: 20px;
+    padding-top: 7px;
+    float: right;
+    margin-top: 1px;
+}
+.clearfix {
+    clear: both;
+}
+.text-center {
+    text-align: center;
+}
+@media screen and (max-width: 767px){
+    .page-header__language {
+        display: block !important;
+        margin-bottom: 15px;
+        margin-top: 10px;
+        float: left !important;
+    }
+    .text-mobile-center {
+        text-align: center;
+    }
+    .page-header__logo {
+        display: none !important;
+    }
+    .sale-head {
+        float:left;
+    }
+}
+#message {
+    color: #efeceb;
+    background: #ef5309;
+    border-radius: 10px;
+    padding: 5px;
+    margin-bottom: 20px
+}
+
+.input-delivery {
+    border: 1px solid #01e675;
+    border-radius: 10px;
+    width: 160px;
+    height: 31px;
+    font-size: 20px;
+    margin-left: 5px;
+    padding-left: 11px;
+    padding-right: 5px;
+}
+
 .input-quatity {
-     border: 0;
+     border: 1px solid #01e675;
      border-radius: 10px;
      width: 50px;
      height: 31px;
@@ -22,10 +71,10 @@
      padding-right: 5px;
  }
 .input-address {
-    border: 0;
+    border: 1px solid #01e675;
     border-radius: 10px;
-    width: 150px;
-    height: 31px;
+    width: 160px;
+    height: 90px;
     font-size: 20px;
     margin-left: 5px;
     padding-left: 11px;
