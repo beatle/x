@@ -65,7 +65,7 @@
 <body class="page page--index" id="top">
 <div class="header page-header--index">
     <header class="page-header page-header--index">
-        <div class="page-header__inner">
+        <div class="page-header__inner ">
             <a class="page-header__logo" href="https://www.ayyayo.com"></a>
 
             <div class="page-header__title">
@@ -79,16 +79,20 @@
                     </svg>
 
             </div>
+            <h1 class="sale-head "> Sale starts 9 pm<br> <span id="timer" style="font-size: 12px; float: right;margin-top: 10px;"> </span> </h1>
 
+            <div class="page-header__language " style="padding-top:0px;display: inline-block">
 
-            <div class="page-header__language">
+                <a href="https://goo.gl/forms/IEI2Q6qVaDy728Gs1"
+                   class="button button--primary button--s block__action order"
+                   style="border-color:transparent;display: inline-block;">Register Now</a>
 
+            </div>
 
-                             </div>
 
 
         </div>
-
+        <div class="clearfix"></div>
         <nav class="page-header__drawer drawer">
             <div class="drawer__inner">
                 <div class="drawer__close" onclick="toggle_menu()">
@@ -121,36 +125,39 @@
 
 <div class="section section--hero">
     <div class="block block--hero">
-        <div class="block__inner">
+        <div class="block__inner text-center">
             <div class="fb-like" data-href="https://www.facebook.com/Ayyayo-1694851644139978/" data-layout="button" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
-            <h1 class="block__title" id="title">
-                Place your order <br>In just 55 Seconds.            </h1>
+            <h1 class="block__title" id="title" style="    font-size: 17px;">
+                Place your order in just 55 Seconds.            </h1>
+            <div class="block__hint">
+                <sup>*</sup> Note: Serving ISI Certified 20ltr             </div>
+
             <form id="orderForm">
-            <div class="block__body" id="content">
+            <div class="block__body " id="content">
+                <p style="color:#fff;display: none; font-size: 12px;" id="message"></p>
                 Quantity: <input type="number" value="1" id="quantity" class="input-quatity">
                 <br>
+                <br>
+                Delivery Contact:
+                <br><input type="text" id="deliveryContact" class="input-delivery">
+                <br>
+                <br>
+
                 <span id="location"></span>
-                <span id="address-wrap" style="display:none">Delivery Address: <br><input type="text" class="input-address" id="address"></span>
+                <span id="address-wrap" style="display:none">Delivery Address: <br>
+                    <textarea rows="5" type="text" class="input-address" id="address"></textarea></span>
             </div>
 
             <!--<a href="https://play.google.com/store/apps/details?id=com.ayyayo.g" class="button button&#45;&#45;primary button&#45;&#45;s block__action">Download now</a>-->
             <button type="submit"
-               class="after-order button button--primary button--s block__action order"  style="border-color:transparent">Order Now</button>
+               class="after-order button button--primary button--s block__action order"
+                    style="border-color:transparent;display: inline-block">Order Now</button>
 </form>
             <!--<a href="https://goo.gl/forms/oOGce8OXYZGhdfu43" class="button button&#45;&#45;primary button&#45;&#45;s block__action">Join now</a>-->
 
 
+<!--Desktop-->
 
-            <div class="block__action actions" class="after-order">
-                <ul>
-                    <li>
-                        <h3><button href="#" class="order button button--primaryx button--s" >
-                            Order Now                        </button></h3>
-                    </li>
-
-                </ul>
-
-            </div>
         </div>
         <div class="block__img">
             <div class="hero-phone"></div>
@@ -279,7 +286,10 @@
     }
     var coords;
 
+
+
     $(document).ready(function() {
+        $('#deliveryContact').val((localStorage.m || '').replace(/[^0-9]/g,""));
         // La géolocalisation est-elle prise en charge par le navigateur ?
         if(navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(showLocation, errorHandler, {enableHighAccuracy:false, maximumAge:60000, timeout:27000});
@@ -288,19 +298,43 @@
         }
 
         $('#orderForm').submit(function(){
+
+            var message = "";
+            var quantity = $('#quantity').val();
+            var address = $('#address').val();
+
+            if(isNaN(quantity) || quantity === "" || quantity === "0" || Number(quantity) < 0){
+                message = 'Pleack check Quatity'
+            }
+
+            if(address === ""){
+                message = 'Please check address'
+            }
+            if(address.length < 30){
+                message = 'Address requires minimum 30 Characters with Contact Person Name, Address, Pin Landmark'
+            }
+
+
+            if(message !== ""){
+                $('#message').text(message);
+                $('#message').show();
+                return false;
+            }
             $('#orderForm button[type="submit"]').prop('disabled', true);
             var text = "";
             if(coords){
                 text = 'Location : https://www.google.com/maps?q='+coords.latitude+','+coords.longitude+' Number: '+localStorage.m+'  Quatity: '+$('#quantity').val()
             } else {
-                text = 'Number: '+localStorage.m+' Location: '+$('#address').val()+' Quatity: '+$('#quantity').val()
+                text = 'Order Number: '+localStorage.m+' Location: '+address+' Quatity: '+ quantity
             }
+
+            text += " Contact Number: " + $('#deliveryContact').val();
             jQuery.ajax({
                 method: 'post',
                 url: 'https://hooks.slack.com/services/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',
                 data: JSON.stringify({ text: text}),
                 success: function(){
-                    $('#title').html('Your order placed within 55 Seconds. Call +91 7892 337 481 for further queries.')
+                    $('#title').html('Your order placed within 55 Seconds. <br> Our executive will call and confirm the time of delivery. <br>for further any queries Call +91 7892 337 481 for further queries.')
                     $('#content').hide();
                     $('.after-order').hide();
                 },
@@ -329,6 +363,29 @@
         console.log('Geolocation error : code '+ error.code +' - '+ error.message);
 
         $('#address-wrap').show()
+    }
+
+    var startDate = new Date();
+    // Do your operations
+    var endDate   = new Date();
+    endDate.setHours(21,0,0)
+    var count = (endDate.getTime() - startDate.getTime()) / 1000;
+
+    var counter = setInterval(timer, 1000); //1000 will  run it every 1 second
+
+    function timer()
+    {
+        count=count-1;
+        if (count <= 0)
+        {
+            clearInterval(counter);
+            //counter ended, do something here
+            return;
+        }
+
+        document.getElementById("timer").innerHTML=  parseInt(count/60/60) +' hours ' + parseInt((count/60)%60) + " Minutes "+ parseInt(count%60) + " secs";
+
+        //Do code for showing the number of seconds here
     }
 
 
